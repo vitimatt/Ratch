@@ -8,6 +8,7 @@ const slideA = document.querySelector("#slide-a");
 const slideB = document.querySelector("#slide-b");
 const meterFill = document.querySelector("#meter-fill");
 const camera = document.querySelector("#camera");
+const music = document.querySelector("#music");
 const gate = document.querySelector("#start");
 const startBtn = gate;
 const hint = document.querySelector("#hint");
@@ -22,7 +23,7 @@ let tracking = false;
 let ready = false;
 let revealing = false;
 let starting = false;
-let track = null;
+let trackUrl = "";
 
 function clamp(v, min, max) {
   return Math.max(min, Math.min(max, v));
@@ -216,12 +217,19 @@ async function loadTrack() {
   const file = files.find((name) => name.toLowerCase().endsWith(".mp3")) || files[0];
   if (!file) return;
   const url = `/audio/${encodeURIComponent(file)}`;
-  if (track?.dataset.src === url) return;
-  const next = new Audio(url);
-  next.dataset.src = url;
-  next.loop = true;
-  next.preload = "auto";
-  track = next;
+  if (trackUrl === url) return;
+  trackUrl = url;
+  music.src = url;
+  music.loop = true;
+  music.preload = "auto";
+}
+
+function playMusic() {
+  if (!music.src) return;
+  music.muted = false;
+  music.volume = 1;
+  const pending = music.play();
+  if (pending) pending.catch(() => {});
 }
 
 function loop() {
@@ -255,7 +263,7 @@ async function start() {
   if (starting) return;
   starting = true;
   hint.textContent = "";
-  track?.play()?.catch(() => {});
+  playMusic();
   try {
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: false,
@@ -291,11 +299,10 @@ function landmarkerOptions(delegate) {
   };
 }
 
+await Promise.all([refreshImages(), loadFont(), loadTrack()]);
 startBtn.addEventListener("click", start);
 window.__setEyeClosure = setClosure;
 window.__beginReveal = beginReveal;
-
-await Promise.all([refreshImages(), loadFont(), loadTrack()]);
 setInterval(() => {
   refreshImages();
   loadFont();

@@ -7,6 +7,10 @@
     "Use AI Image Oct 13, 2026, 16_27_17.jpeg",
     "Use AI Image Oct 13, 2026, 16_28_10.jpeg"
   ],
-  "audio": [],
-  "fonts": []
+  "audio": [
+    "ratch.mp3"
+  ],
+  "fonts": [
+    "times-ten.woff2"
+  ]
 }

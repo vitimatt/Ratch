@@ -1,2 +1,3 @@
 [build]
-publish = "."
+  publish = "."
+  command = "python3 build_catalog.py"
