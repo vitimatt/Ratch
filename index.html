@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Eyes slider</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="stage" id="stage">
+      <img id="slide-a" class="slide" alt="" />
+      <img id="slide-b" class="slide" alt="" />
+    </main>
+
+    <div class="meter" aria-hidden="true"><span id="meter-fill"></span></div>
+
+    <video id="camera" playsinline autoplay muted></video>
+
+    <button id="start" class="gate" type="button">
+      <span class="memories">Ratch Osathanugrah's memories.</span>
+      <span class="immerse">Click anywhere to immerse yourself.</span>
+      <span class="hint" id="hint"></span>
+    </button>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

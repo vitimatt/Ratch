@@ -1,0 +1,116 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+.stage {
+  position: fixed;
+  inset: 0;
+  background: #000;
+}
+
+.slide {
+  position: absolute;
+  left: -8%;
+  top: -8%;
+  width: 116%;
+  height: 116%;
+  object-fit: cover;
+  opacity: 0;
+  filter: blur(0);
+  will-change: opacity, filter;
+  pointer-events: none;
+  user-select: none;
+}
+
+.meter {
+  position: fixed;
+  top: 1.25rem;
+  left: 50%;
+  z-index: 3;
+  width: 9rem;
+  height: 4px;
+  transform: translateX(-50%);
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+#meter-fill {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: #fff;
+}
+
+#camera {
+  position: fixed;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gate {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #fff;
+  cursor: pointer;
+  color: #000;
+  font-family: "Times Ten", Times, serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.4px;
+  text-align: left;
+  transition: opacity 1.2s ease;
+}
+
+.gate.leaving {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.gate.hidden {
+  display: none;
+}
+
+.memories,
+.immerse {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+}
+
+.memories {
+  left: 6vw;
+}
+
+.immerse {
+  right: 6vw;
+}
+
+.hint {
+  position: absolute;
+  left: 6vw;
+  right: 6vw;
+  bottom: 8vh;
+  color: #000;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: center;
+}
