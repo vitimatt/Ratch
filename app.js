@@ -59,9 +59,31 @@ function showPair() {
   slideB.src = imageUrl(images[next]);
 }
 
+let catalogPromise;
+
+function loadCatalog() {
+  catalogPromise ??= fetch("/catalog.json")
+    .then((response) => (response.ok ? response.json() : {}))
+    .catch(() => ({}));
+  return catalogPromise;
+}
+
+async function fetchList(kind) {
+  try {
+    const response = await fetch(`/api/${kind}`);
+    if (response.ok) {
+      const data = await response.json();
+      if (Array.isArray(data)) return data;
+    }
+  } catch {
+    // Netlify has no folder API. catalog.json is the file list.
+  }
+  const catalog = await loadCatalog();
+  return catalog[kind] || [];
+}
+
 async function refreshImages() {
-  const response = await fetch("/api/images");
-  const next = await response.json();
+  const next = await fetchList("images");
   const same =
     next.length === images.length && next.every((name, i) => name === images[i]);
   if (same) return;
@@ -179,8 +201,7 @@ function cancelReveal() {
 const FONT_FORMAT = { ttf: "truetype", otf: "opentype", woff: "woff", woff2: "woff2" };
 
 async function loadFont() {
-  const response = await fetch("/api/fonts");
-  const files = await response.json();
+  const files = await fetchList("fonts");
   const file = files[0];
   if (!file || document.querySelector("style[data-font]")) return;
   const ext = file.split(".").pop().toLowerCase();
@@ -191,8 +212,7 @@ async function loadFont() {
 }
 
 async function loadTrack() {
-  const response = await fetch("/api/audio");
-  const files = await response.json();
+  const files = await fetchList("audio");
   const file = files.find((name) => name.toLowerCase().endsWith(".mp3")) || files[0];
   if (!file) return;
   const url = `/audio/${encodeURIComponent(file)}`;
